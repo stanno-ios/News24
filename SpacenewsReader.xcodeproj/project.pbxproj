@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		3A63D1E028A1F70D003FC485 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D1DF28A1F70D003FC485 /* AppDelegate.swift */; };
-		3A63D1E228A1F70D003FC485 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D1E128A1F70D003FC485 /* SceneDelegate.swift */; };
-		3A63D1E428A1F70D003FC485 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D1E328A1F70D003FC485 /* ViewController.swift */; };
-		3A63D1E728A1F70D003FC485 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A63D1E528A1F70D003FC485 /* Main.storyboard */; };
+		3A63D1E428A1F70D003FC485 /* NewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A63D1E328A1F70D003FC485 /* NewsController.swift */; };
 		3A63D1E928A1F710003FC485 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A63D1E828A1F710003FC485 /* Assets.xcassets */; };
 		3A63D1EC28A1F710003FC485 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A63D1EA28A1F710003FC485 /* LaunchScreen.storyboard */; };
+		EBF3CBDA0F02207B81D3BB9B /* Pods_SpacenewsReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E872BF184FB1125E24D8E61 /* Pods_SpacenewsReader.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A63D1DC28A1F70D003FC485 /* SpacenewsReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpacenewsReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A63D1DF28A1F70D003FC485 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3A63D1E128A1F70D003FC485 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3A63D1E328A1F70D003FC485 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3A63D1E628A1F70D003FC485 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3A63D1E328A1F70D003FC485 /* NewsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsController.swift; sourceTree = "<group>"; };
 		3A63D1E828A1F710003FC485 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A63D1EB28A1F710003FC485 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3A63D1ED28A1F710003FC485 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4E872BF184FB1125E24D8E61 /* Pods_SpacenewsReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpacenewsReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		533F3018C1496295E599EB18 /* Pods-SpacenewsReader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpacenewsReader.release.xcconfig"; path = "Target Support Files/Pods-SpacenewsReader/Pods-SpacenewsReader.release.xcconfig"; sourceTree = "<group>"; };
+		D201E578B689B7EF93CDE141 /* Pods-SpacenewsReader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpacenewsReader.debug.xcconfig"; path = "Target Support Files/Pods-SpacenewsReader/Pods-SpacenewsReader.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBF3CBDA0F02207B81D3BB9B /* Pods_SpacenewsReader.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +43,8 @@
 			children = (
 				3A63D1DE28A1F70D003FC485 /* SpacenewsReader */,
 				3A63D1DD28A1F70D003FC485 /* Products */,
+				A2F7DC7B705FBEA3A0B8B453 /* Pods */,
+				F9EA253AB7149146CA795102 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +59,111 @@
 		3A63D1DE28A1F70D003FC485 /* SpacenewsReader */ = {
 			isa = PBXGroup;
 			children = (
-				3A63D1DF28A1F70D003FC485 /* AppDelegate.swift */,
-				3A63D1E128A1F70D003FC485 /* SceneDelegate.swift */,
-				3A63D1E328A1F70D003FC485 /* ViewController.swift */,
-				3A63D1E528A1F70D003FC485 /* Main.storyboard */,
-				3A63D1E828A1F710003FC485 /* Assets.xcassets */,
-				3A63D1EA28A1F710003FC485 /* LaunchScreen.storyboard */,
-				3A63D1ED28A1F710003FC485 /* Info.plist */,
+				3A63D1F428A1F937003FC485 /* Sources */,
+				3A63D1F328A1F92E003FC485 /* Resources */,
 			);
 			path = SpacenewsReader;
+			sourceTree = "<group>";
+		};
+		3A63D1F328A1F92E003FC485 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1FB28A1F965003FC485 /* Configuration */,
+				3A63D1FA28A1F95D003FC485 /* Supporting files */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3A63D1F428A1F937003FC485 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1F628A1F943003FC485 /* Scenes */,
+				3A63D1F528A1F93C003FC485 /* App */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		3A63D1F528A1F93C003FC485 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1DF28A1F70D003FC485 /* AppDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		3A63D1F628A1F943003FC485 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1F928A1F957003FC485 /* Model */,
+				3A63D1F828A1F94F003FC485 /* View */,
+				3A63D1F728A1F949003FC485 /* Controller */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		3A63D1F728A1F949003FC485 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1E328A1F70D003FC485 /* NewsController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3A63D1F828A1F94F003FC485 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1FC28A1F976003FC485 /* Storyboards */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3A63D1F928A1F957003FC485 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3A63D1FA28A1F95D003FC485 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1E828A1F710003FC485 /* Assets.xcassets */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		3A63D1FB28A1F965003FC485 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1ED28A1F710003FC485 /* Info.plist */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		3A63D1FC28A1F976003FC485 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				3A63D1EA28A1F710003FC485 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		A2F7DC7B705FBEA3A0B8B453 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D201E578B689B7EF93CDE141 /* Pods-SpacenewsReader.debug.xcconfig */,
+				533F3018C1496295E599EB18 /* Pods-SpacenewsReader.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		F9EA253AB7149146CA795102 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E872BF184FB1125E24D8E61 /* Pods_SpacenewsReader.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +173,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A63D1F028A1F710003FC485 /* Build configuration list for PBXNativeTarget "SpacenewsReader" */;
 			buildPhases = (
+				FFF8D2E425AB3B67F50BA56A /* [CP] Check Pods Manifest.lock */,
 				3A63D1D828A1F70D003FC485 /* Sources */,
 				3A63D1D928A1F70D003FC485 /* Frameworks */,
 				3A63D1DA28A1F70D003FC485 /* Resources */,
+				F148643F43050D3911BFD2E0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,34 +228,66 @@
 			files = (
 				3A63D1EC28A1F710003FC485 /* LaunchScreen.storyboard in Resources */,
 				3A63D1E928A1F710003FC485 /* Assets.xcassets in Resources */,
-				3A63D1E728A1F70D003FC485 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F148643F43050D3911BFD2E0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SpacenewsReader/Pods-SpacenewsReader-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SpacenewsReader/Pods-SpacenewsReader-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SpacenewsReader/Pods-SpacenewsReader-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFF8D2E425AB3B67F50BA56A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SpacenewsReader-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3A63D1D828A1F70D003FC485 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A63D1E428A1F70D003FC485 /* ViewController.swift in Sources */,
+				3A63D1E428A1F70D003FC485 /* NewsController.swift in Sources */,
 				3A63D1E028A1F70D003FC485 /* AppDelegate.swift in Sources */,
-				3A63D1E228A1F70D003FC485 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		3A63D1E528A1F70D003FC485 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3A63D1E628A1F70D003FC485 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		3A63D1EA28A1F710003FC485 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -282,6 +415,7 @@
 		};
 		3A63D1F128A1F710003FC485 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D201E578B689B7EF93CDE141 /* Pods-SpacenewsReader.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -289,10 +423,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MK8LDS6W26;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SpacenewsReader/Info.plist;
+				INFOPLIST_FILE = SpacenewsReader/Resources/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -310,6 +443,7 @@
 		};
 		3A63D1F228A1F710003FC485 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 533F3018C1496295E599EB18 /* Pods-SpacenewsReader.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -317,10 +451,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MK8LDS6W26;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SpacenewsReader/Info.plist;
+				INFOPLIST_FILE = SpacenewsReader/Resources/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

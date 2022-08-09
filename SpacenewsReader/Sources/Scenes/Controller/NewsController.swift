@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class NewsController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
