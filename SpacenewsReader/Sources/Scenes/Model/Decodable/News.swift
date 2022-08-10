@@ -8,8 +8,19 @@
 import Foundation
 
 struct News: Decodable {
-    let categories: [String]
-    let description: String
     let status: String
+    let news: [Article]
+    let page: Int
 }
 
+struct Article: Decodable {
+    let id: String
+    let title: String
+    let description: String
+    let url: String
+    let author: String
+    let image: String
+    let language: String
+    let category: [String]
+    let published: String
+}

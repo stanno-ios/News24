@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+extension NewsController {
+    enum Strings {
+        static let categories: [String] = ["Regional", "Technology", "Lifestyle", "Business", "General", "Programming", "Science", "Entertainment", "World", "Sports", "Finance", "Academia", "Politics", "Health", "Opinion", "Food", "Game"]
+        static let title: String = "News24"
+    }
+}

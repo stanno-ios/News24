@@ -6,3 +6,144 @@
 //
 
 import Foundation
+import UIKit
+
+class NewsCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Identifier
+    
+    static let identifier = "articleCell"
+    
+    // MARK: - Initialization
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        setupHierarchy()
+        setupLayout()
+        setupView()
+    }
+    
+    // MARK: - UI Elements
+    
+    private lazy var articleImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    private lazy var articleTitleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.numberOfLines = 0
+        label.sizeToFit()
+        return label
+    }()
+    
+    private lazy var authorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.numberOfLines = 0
+        label.sizeToFit()
+        return label
+    }()
+    
+    private lazy var categoryLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(red: 0.41, green: 0.74, blue: 0.99, alpha: 1.00)
+        label.font = .systemFont(ofSize: 13, weight: .bold)
+        return label
+    }()
+    
+    private lazy var publishedLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        return label
+    }()
+    
+    private lazy var moreButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.tintColor = .black
+        
+        return button
+    }()
+    
+    private lazy var textContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
+    private lazy var bottomContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        return stackView
+    }()
+    
+    // MARK: - Configuration
+    
+    private func setupHierarchy() {
+        addSubview(articleImage)
+        addSubview(textContainer)
+        textContainer.addArrangedSubview(articleTitleLabel)
+        textContainer.addArrangedSubview(authorLabel)
+        textContainer.addArrangedSubview(bottomContainer)
+        bottomContainer.addArrangedSubview(categoryLabel)
+        bottomContainer.addArrangedSubview(moreButton)
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            articleImage.topAnchor.constraint(equalTo: topAnchor),
+            articleImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            articleImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
+            articleImage.widthAnchor.constraint(equalTo: articleImage.heightAnchor),
+            
+            textContainer.topAnchor.constraint(equalTo: topAnchor),
+            textContainer.leadingAnchor.constraint(equalTo: articleImage.trailingAnchor, constant: 10),
+            textContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            textContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30)
+        ])
+    }
+    
+    private func setupView() {
+        self.layer.addBorder(edge: .bottom, color: .systemGray5, thickness: 1, widthAdjustment: 0, inset: 0)
+    }
+    
+    func configure(with model: Article) {
+        self.articleImage.loadImageFromUrl(urlString: model.image)
+        self.articleTitleLabel.text = model.title
+        self.authorLabel.text = model.author
+        self.categoryLabel.text = model.category[0].capitalized
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.articleImage.image = nil
+        self.articleTitleLabel.text = nil
+        self.authorLabel.text = nil
+        self.categoryLabel.text = nil
+    }
+}
