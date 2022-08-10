@@ -9,20 +9,19 @@ import UIKit
 
 class NewsController: UIViewController {
     
+    // MARK: - Properties
+    
     let manager = NetworkManager()
     var articles: [Article] = []
+    var tempArticles: [Article] = []
+    var cellStatus: NSMutableDictionary = NSMutableDictionary()
     
     private var newsView: NewsView? {
         guard isViewLoaded else { return nil }
         return view as? NewsView
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
-        
-    }
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,9 +32,12 @@ class NewsController: UIViewController {
         newsView?.collectionView.delegate = self
         newsView?.collectionView.dataSource = self
         manager.delegate = self
+        newsView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: [])
         manager.fetchArticles()
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension NewsController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -53,10 +55,10 @@ extension NewsController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as! CategoryCollectionViewCell
+            cell.isSelected = (cellStatus[indexPath.row] as? Bool) ?? false
             cell.configure(with: Strings.categories[indexPath.row])
             return cell
         case 1:
@@ -69,31 +71,50 @@ extension NewsController: UICollectionViewDataSource {
     }
 }
 
-#warning("Implement default selected cell")
+// MARK: - UICollectionViewDelegate
+
 extension NewsController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if indexPath.section == 0 {
-//            let selectedCell: CategoryCollectionViewCell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
-//            selectedCell.backgroundColor = .black
-//            selectedCell.label.textColor = .white
-//        }
-        
+        if indexPath.section == 0 {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+            cell.isSelected = true
+            self.cellStatus[indexPath.row] = true
+            
+            if let category = cell.label.text, category != "Latest" {
+                manager.applyFilter(category: cell.label.text!.lowercased())
+            } else {
+                self.articles = tempArticles
+                self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
+            }
+        } else {
+            print("article")
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-//        if indexPath.section == 0 {
-//            let cellToDeselect: CategoryCollectionViewCell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
-//            cellToDeselect.backgroundColor = .systemGray5
-//            cellToDeselect.label.textColor = .gray
-//        }
+        if indexPath.section == 0 {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+        cell.isSelected = false
+        self.cellStatus[indexPath.row] = false
+        }
     }
 }
+
+// MARK: - CategoriesDelegate
 
 extension NewsController: CategoriesDelegate {
     func updateCells(with model: [Article]) {
         DispatchQueue.main.async {
             self.articles = model
-            self.newsView?.collectionView.reloadData()
+            self.tempArticles = model
+            self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
+        }
+    }
+    
+    func reloadFiltered(with model: [Article]) {
+        DispatchQueue.main.async {
+            self.articles = model
+            self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
         }
     }
 }

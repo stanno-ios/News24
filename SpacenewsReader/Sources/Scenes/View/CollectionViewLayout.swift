@@ -32,7 +32,6 @@ class CollectionViewLayout {
                 return section
             default: return nil
             }
-            
         }
     }
 }

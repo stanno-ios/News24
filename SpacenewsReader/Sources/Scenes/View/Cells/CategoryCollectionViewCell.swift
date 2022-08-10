@@ -41,6 +41,28 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    // MARK: - Cell selection
+    
+    override var isSelected: Bool {
+        get {
+            return super.isSelected
+        }
+        
+        set {
+            if super.isSelected != newValue {
+                super.isSelected = newValue
+                
+                if newValue == true {
+                    backgroundColor = .black
+                    label.textColor = .white
+                } else {
+                    backgroundColor = .systemGray5
+                    label.textColor = .gray
+                }
+            }
+        }
+    }
+    
     // MARK: - Configuration
     
     private func setupHierarchy() {
