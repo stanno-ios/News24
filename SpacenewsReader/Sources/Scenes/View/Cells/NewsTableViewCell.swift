@@ -1,5 +1,5 @@
 //
-//  NewsCollectionViewCell.swift
+//  NewsTableViewCell.swift
 //  SpacenewsReader
 //
 //  Created by Stanislav Rassolenko on 8/10/22.
@@ -8,16 +8,16 @@
 import Foundation
 import UIKit
 
-class NewsCollectionViewCell: UICollectionViewCell {
+class NewsTableViewCell: UITableViewCell {
     
     // MARK: - Identifier
     
-    static let identifier = "articleCell"
+    static let identifier = "articleTableViewCell"
     
     // MARK: - Initialization
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         commonInit()
     }
     
@@ -29,7 +29,6 @@ class NewsCollectionViewCell: UICollectionViewCell {
     private func commonInit() {
         setupHierarchy()
         setupLayout()
-        setupView()
     }
     
     // MARK: - UI Elements
@@ -116,20 +115,16 @@ class NewsCollectionViewCell: UICollectionViewCell {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            articleImage.topAnchor.constraint(equalTo: topAnchor),
-            articleImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            articleImage.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            articleImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             articleImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
             articleImage.widthAnchor.constraint(equalTo: articleImage.heightAnchor),
             
-            textContainer.topAnchor.constraint(equalTo: topAnchor),
+            textContainer.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             textContainer.leadingAnchor.constraint(equalTo: articleImage.trailingAnchor, constant: 10),
-            textContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
+            textContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             textContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30)
         ])
-    }
-    
-    private func setupView() {
-        self.layer.addBorder(edge: .bottom, color: .systemGray5, thickness: 1, widthAdjustment: 0, inset: 0)
     }
     
     func configure(with model: Article) {
@@ -147,3 +142,4 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.categoryLabel.text = nil
     }
 }
+
