@@ -35,13 +35,6 @@ class ReaderView: UIView {
         return webView
     }()
     
-    private lazy var barView: UINavigationBar = {
-        let view = UINavigationBar()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemPink
-        return view
-    }()
-    
     lazy var backButton: UIButton = createBarButton(with: "chevron.backward")
     lazy var bookmarkButton: UIButton = createBarButton(with: "bookmark")
     lazy var shareButton: UIButton = createBarButton(with: "square.and.arrow.up")
