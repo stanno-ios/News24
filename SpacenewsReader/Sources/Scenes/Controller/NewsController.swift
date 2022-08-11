@@ -66,6 +66,8 @@ extension NewsController: UICollectionViewDataSource {
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
             cell.configure(with: articles[indexPath.row])
+            cell.moreButton.showsMenuAsPrimaryAction = true
+            cell.moreButton.menu = newsView?.makeMenu()
             return cell
         default:
             return UICollectionViewCell()
@@ -122,4 +124,3 @@ extension NewsController: CategoriesDelegate {
         }
     }
 }
-

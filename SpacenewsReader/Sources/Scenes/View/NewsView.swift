@@ -50,4 +50,21 @@ class NewsView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+    
+    func makeMenu() -> UIMenu {
+        let shareAction = UIAction(title: "Share",
+                                   image: UIImage(systemName: "square.and.arrow.up"),
+                                   identifier: nil) { _ in
+                                    print("Share action")
+            
+        }
+        let bookmarkAction = UIAction(title: "Bookmark",
+                                      image: UIImage(systemName: "bookmark"),
+                                      identifier: nil) { _ in
+                                       print("Bookmark action")
+            
+        }
+        
+        return UIMenu(title: "Actions", children: [shareAction, bookmarkAction])
+    }
 }

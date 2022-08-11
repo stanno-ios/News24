@@ -77,7 +77,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var moreButton: UIButton = {
+    lazy var moreButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
