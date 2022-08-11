@@ -5,7 +5,6 @@
 //  Created by Stanislav Rassolenko on 8/11/22.
 //
 
-import Foundation
 import UIKit
 import LinkPresentation
 

@@ -82,7 +82,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.tintColor = .black
-        
+        button.showsMenuAsPrimaryAction = true
         return button
     }()
     
@@ -146,5 +146,21 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.articleTitleLabel.text = nil
         self.authorLabel.text = nil
         self.categoryLabel.text = nil
+    }
+    
+    func makeMenu(for item: Article, viewController: UIViewController) {
+        let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { _ in
+            let itemToShare: [Any] = [ArticleActivityItemSource(title: item.title, desc: item.description, url: item.url)]
+            let activityVC = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
+            activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
+            activityVC.popoverPresentationController?.sourceView = self.moreButton
+            viewController.present(activityVC, animated: true)
+        }
+    
+        let bookmarkAction = UIAction(title: "Bookmark", image: UIImage(systemName: "bookmark"), identifier: nil) { _ in
+            print("Bookmark action")
+        }
+        
+        moreButton.menu = UIMenu(title: "Actions", children: [shareAction, bookmarkAction])
     }
 }

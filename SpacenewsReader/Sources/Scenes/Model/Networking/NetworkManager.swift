@@ -13,9 +13,14 @@ protocol CategoriesDelegate {
     func reloadFiltered(with model: [Article])
 }
 
+protocol SearchDelegate {
+    func updateSearchResults(with data: [Article])
+}
+
 class NetworkManager {
     
     var delegate: CategoriesDelegate?
+    var searchDelegate: SearchDelegate?
     
     func fetchArticles() {
         AF.request("https://api.currentsapi.services/v1/latest-news?apiKey=TeSfqsIS6rmfl2atTPhnfpunLLr25eV8ReABx-uZ3X8Aoj0w")
@@ -36,6 +41,18 @@ class NetworkManager {
                 guard let response = data.value else { return }
                 let articles = response.news
                 self.delegate?.reloadFiltered(with: articles)
+            }
+    }
+    
+    func searchByKeywords(keywords: String) {
+        let url = "https://api.currentsapi.services/v1/search"
+        let parameters: [String: String] = ["keywords": keywords, "apiKey": "TeSfqsIS6rmfl2atTPhnfpunLLr25eV8ReABx-uZ3X8Aoj0w"]
+        AF.request(url, parameters: parameters)
+            .validate()
+            .responseDecodable(of: News.self) { (data) in
+                guard let response = data.value else { return }
+                let articles = response.news
+                self.searchDelegate?.updateSearchResults(with: articles)
             }
     }
 }
