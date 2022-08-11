@@ -42,8 +42,10 @@ class NewsController: UIViewController {
                                    identifier: nil) { _ in
             let article = self.articles[indexPath.item]
             let currentCell = self.newsView?.collectionView.cellForItem(at: indexPath) as! NewsCollectionViewCell
-
-            let activityVC = UIActivityViewController(activityItems: [article.url], applicationActivities: nil)
+            let itemToShare: [Any] = [
+                ArticleActivityItemSource(title: article.title, desc: article.description, url: article.url)
+            ]
+            let activityVC = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
             activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
             activityVC.popoverPresentationController?.sourceView = currentCell.moreButton
             self.present(activityVC, animated: true)

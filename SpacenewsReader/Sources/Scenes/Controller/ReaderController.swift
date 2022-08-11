@@ -61,8 +61,10 @@ class ReaderController: UIViewController {
         guard let article = article else {
             return
         }
-
-        let activityVC = UIActivityViewController(activityItems: [article.url], applicationActivities: nil)
+        let itemToShare: [Any] = [
+            ArticleActivityItemSource(title: article.title, desc: article.description, url: article.url)
+        ]
+        let activityVC = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
         activityVC.popoverPresentationController?.sourceView = sender
         self.present(activityVC, animated: true)
@@ -72,11 +74,11 @@ class ReaderController: UIViewController {
 // MARK: - WKNavigationDelegate
 
 extension ReaderController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        readerView?.activityIndicator.stopAnimating()
-    }
-    
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         readerView?.activityIndicator.startAnimating()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        readerView?.activityIndicator.stopAnimating()
     }
 }
