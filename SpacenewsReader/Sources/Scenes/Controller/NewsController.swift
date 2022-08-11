@@ -34,8 +34,28 @@ class NewsController: UIViewController {
         manager.delegate = self
         manager.fetchArticles()
         newsView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: [])
+    }
+    
+    func makeMenu(for indexPath: IndexPath) -> UIMenu {
+        let shareAction = UIAction(title: "Share",
+                                   image: UIImage(systemName: "square.and.arrow.up"),
+                                   identifier: nil) { _ in
+            let article = self.articles[indexPath.item]
+            let currentCell = self.newsView?.collectionView.cellForItem(at: indexPath) as! NewsCollectionViewCell
+
+            let activityVC = UIActivityViewController(activityItems: [article.url], applicationActivities: nil)
+            activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
+            activityVC.popoverPresentationController?.sourceView = currentCell.moreButton
+            self.present(activityVC, animated: true)
+        }
         
+        let bookmarkAction = UIAction(title: "Bookmark",
+                                      image: UIImage(systemName: "bookmark"),
+                                      identifier: nil) { _ in
+                                       print("Bookmark action")
+        }
         
+        return UIMenu(title: "Actions", children: [shareAction, bookmarkAction])
     }
 }
 
@@ -67,7 +87,7 @@ extension NewsController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
             cell.configure(with: articles[indexPath.row])
             cell.moreButton.showsMenuAsPrimaryAction = true
-            cell.moreButton.menu = newsView?.makeMenu()
+            cell.moreButton.menu = self.makeMenu(for: indexPath)
             return cell
         default:
             return UICollectionViewCell()
@@ -92,7 +112,7 @@ extension NewsController: UICollectionViewDelegate {
             }
         } else {
             let readerController = ReaderController()
-            readerController.urlString = articles[indexPath.row].url
+            readerController.article = articles[indexPath.row]
             navigationController?.pushViewController(readerController, animated: true)
         }
     }

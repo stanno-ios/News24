@@ -35,6 +35,14 @@ class ReaderView: UIView {
         return webView
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.hidesWhenStopped = true
+        indicator.style = .medium
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     lazy var backButton: UIButton = createBarButton(with: "chevron.backward")
     lazy var bookmarkButton: UIButton = createBarButton(with: "bookmark")
     lazy var shareButton: UIButton = createBarButton(with: "square.and.arrow.up")
@@ -50,6 +58,7 @@ class ReaderView: UIView {
     
     private func setupHierarchy() {
         addSubview(webView)
+        webView.addSubview(activityIndicator)
     }
     
     private func setupLayout() {
@@ -57,7 +66,10 @@ class ReaderView: UIView {
             webView.topAnchor.constraint(equalTo: topAnchor),
             webView.leadingAnchor.constraint(equalTo: leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            webView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: webView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: webView.centerYAnchor)
         ])
     }
 }
