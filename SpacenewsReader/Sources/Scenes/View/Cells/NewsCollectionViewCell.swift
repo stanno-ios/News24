@@ -136,7 +136,8 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.articleImage.loadImageFromUrl(urlString: model.image)
         self.articleTitleLabel.text = model.title
         self.authorLabel.text = model.author
-        self.categoryLabel.text = model.category[0].capitalized
+        guard !model.category.isEmpty else { return }
+        self.categoryLabel.text = model.category[0].lowercased()
     }
     
     override func prepareForReuse() {

@@ -32,8 +32,10 @@ class NewsController: UIViewController {
         newsView?.collectionView.delegate = self
         newsView?.collectionView.dataSource = self
         manager.delegate = self
-        newsView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: [])
         manager.fetchArticles()
+        newsView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: [])
+        
+        
     }
 }
 
@@ -87,7 +89,9 @@ extension NewsController: UICollectionViewDelegate {
                 self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
             }
         } else {
-            print("article")
+            let readerController = ReaderController()
+            readerController.urlString = articles[indexPath.row].url
+            navigationController?.pushViewController(readerController, animated: true)
         }
     }
     
