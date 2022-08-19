@@ -22,6 +22,9 @@ class SearchController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = SearchView()
+        searchView?.searchBar.placeholder = "Search"
+        searchView?.searchBar.delegate = self
+        navigationItem.titleView = searchView?.searchBar
         searchView?.collectionView.delegate = self
         searchView?.collectionView.dataSource = self
         manager.searchDelegate = self
@@ -41,8 +44,9 @@ extension SearchController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
-        cell.configure(with: articles[indexPath.item])
-        cell.makeMenu(for: articles[indexPath.row], viewController: self)
+        let article = DisplayableArticle(title: articles[indexPath.item].title, author: articles[indexPath.item].author, category: articles[indexPath.item].category[0], url: articles[indexPath.item].url, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].image)
+        cell.configure(with: article)
+        cell.makeMenu(for: article, viewController: self)
         return cell
     }
 }
@@ -50,15 +54,7 @@ extension SearchController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension SearchController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SearchBarReusableHeaderView.identifier, for: indexPath) as! SearchBarReusableHeaderView
-            view.searchBar.delegate = self
-            return view
-        } else {
-            return UICollectionReusableView()
-        }
-    }
+
 }
 
 // MARK: - UISearchBarDelegate
@@ -67,13 +63,6 @@ extension SearchController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let text = searchBar.text else { return }
         manager.searchByKeywords(keywords: text)
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        articles = []
-        searchBar.text = nil
-        searchBar.resignFirstResponder()
-        self.searchView?.collectionView.reloadData()
     }
 }
 

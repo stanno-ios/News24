@@ -28,6 +28,8 @@ class SearchView: UIView {
     
     // MARK: - UI Elements
     
+    lazy var searchBar = UISearchBar(frame: .zero)
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout.createSingleSectionLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false

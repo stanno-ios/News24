@@ -21,4 +21,17 @@ extension UIImageView {
             }
         }
     }
+    
+    func loadImageFromFilePath(path: URL) {
+//        DispatchQueue.global().async { [weak self] in
+        if let data = try? Data(contentsOf: path) {
+            if let image = UIImage(data: data) {
+//                DispatchQueue.main.async {
+                    self.image = image
+//                }
+//            }
+        }
+        }
+            
+    }
 }

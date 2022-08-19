@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchBarReusableHeaderView: UICollectionReusableView {
+class SearchBarReusableHeaderView: UIView {
     
     static let identifier = "searchBar"
     

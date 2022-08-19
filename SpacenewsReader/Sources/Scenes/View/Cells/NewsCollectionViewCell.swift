@@ -7,8 +7,18 @@
 
 import Foundation
 import UIKit
+import CoreData
+
+protocol DeletionDelegate: AnyObject {
+    func deleteArticle(indexPath: IndexPath)
+}
 
 class NewsCollectionViewCell: UICollectionViewCell {
+    
+    let fileManager = LocalStorageManager()
+    let databaseManager = DatabaseManager()
+    var delegate: DeletionDelegate?
+    
     
     // MARK: - Identifier
     
@@ -132,12 +142,24 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.layer.addBorder(edge: .bottom, color: .systemGray5, thickness: 1, widthAdjustment: 0, inset: 0)
     }
     
-    func configure(with model: Article) {
-        self.articleImage.loadImageFromUrl(urlString: model.image)
+    func configure(with model: DisplayableArticle) {
+        self.articleImage.loadImageFromUrl(urlString: model.imagePath)
         self.articleTitleLabel.text = model.title
         self.authorLabel.text = model.author
-        guard !model.category.isEmpty else { return }
-        self.categoryLabel.text = model.category[0].lowercased()
+        self.categoryLabel.text = model.category
+    }
+    
+    func configureFromDB(with model: SavedArticle) {
+//        guard let article = model as? SavedArticle else { return }
+//        guard let url = model.displayImage else { return }
+        
+        if fileManager.fileManager.fileExists(atPath: model.imagePath!.path) {
+            self.articleImage.loadImageFromFilePath(path: URL(string: model.imagePath!.path)!)
+        }
+        
+        self.articleTitleLabel.text = model.title
+        self.authorLabel.text = model.author
+        self.categoryLabel.text = model.category
     }
     
     override func prepareForReuse() {
@@ -148,7 +170,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.categoryLabel.text = nil
     }
     
-    func makeMenu(for item: Article, viewController: UIViewController) {
+    func makeMenu(for item: DisplayableArticle, viewController: UIViewController, indexPath: IndexPath? = nil) {
         let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { _ in
             let itemToShare: [Any] = [ArticleActivityItemSource(title: item.title, desc: item.description, url: item.url)]
             let activityVC = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
@@ -156,11 +178,29 @@ class NewsCollectionViewCell: UICollectionViewCell {
             activityVC.popoverPresentationController?.sourceView = self.moreButton
             viewController.present(activityVC, animated: true)
         }
-    
+
         let bookmarkAction = UIAction(title: "Bookmark", image: UIImage(systemName: "bookmark"), identifier: nil) { _ in
-            print("Bookmark action")
+            guard let image = self.articleImage.image else { return }
+            self.fileManager.saveImage(image: image, title: item.title)
+            self.databaseManager.saveArticle(article: item)
+            
+            if !self.databaseManager.checkIfCategoryExists(category: item.category) {
+                self.databaseManager.saveCategory(category: item.category)
+            }
         }
         
-        moreButton.menu = UIMenu(title: "Actions", children: [shareAction, bookmarkAction])
+        let deleteAction = UIAction(title: "Remove", image: UIImage(systemName: "delete.left"), identifier: nil, attributes: .destructive) { _ in
+            guard let indexPath = indexPath else {
+                return
+            }
+
+            self.delegate?.deleteArticle(indexPath: indexPath)
+        }
+        
+        if viewController is BookmarksController {
+            moreButton.menu = UIMenu(title: "Actions", children: [shareAction, deleteAction])
+        } else {
+            moreButton.menu = UIMenu(title: "Actions", children: [shareAction, bookmarkAction])
+        }
     }
 }
