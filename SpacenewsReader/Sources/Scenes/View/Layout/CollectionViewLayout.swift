@@ -38,13 +38,6 @@ class CollectionViewLayout {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        
-//        if sectionNumber == 0 {
-//            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
-//            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
-//            section.boundarySupplementaryItems = [header]
-//        }
-        
         section.interGroupSpacing = 10
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         return section

@@ -34,7 +34,6 @@ class SearchView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout.createSingleSectionLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: NewsCollectionViewCell.identifier)
-        collectionView.register(SearchBarReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SearchBarReusableHeaderView.identifier)
         return collectionView
     }()
     

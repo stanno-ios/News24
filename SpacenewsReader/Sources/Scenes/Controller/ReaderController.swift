@@ -31,12 +31,12 @@ class ReaderController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         guard let urlString = article?.url, let url = URL(string: urlString) else {
             return
         }
         readerView?.webView.load(URLRequest(url: url))
         readerView?.webView.allowsBackForwardNavigationGestures = true
-        setupNavigationBar()
     }
     
     // MARK: - Private functions
@@ -48,7 +48,6 @@ class ReaderController: UIViewController {
         let trailingItems = [UIBarButtonItem(customView: readerView!.shareButton), UIBarButtonItem(customView: readerView!.bookmarkButton)]
         navigationItem.leftBarButtonItem = leftItem
         navigationItem.rightBarButtonItems = trailingItems
-        
     }
     
     // MARK: - Button actions

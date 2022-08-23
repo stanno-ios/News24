@@ -10,10 +10,10 @@ import CoreData
 
 class BookmarksController: UIViewController {
     
-    let databaseManager = DatabaseManager()
-    let fileManager = LocalStorageManager()
-    private var savedCategories: [SavedCategory] = []
-    private var savedArticles: [SavedArticle] = []
+    var databaseManager: DatabaseManager?
+    var fileManager: LocalStorageManager?
+    private var savedCategories: [SavedCategory]?
+    private var savedArticles: [SavedArticle]?
     
     private var bookmarksView: BookmarksView? {
         guard isViewLoaded else { return nil }
@@ -32,10 +32,10 @@ class BookmarksController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        savedArticles = databaseManager.fetchData()!
-        savedCategories = databaseManager.fetchCategories()!
-//        databaseManager.deleteAllData(entity: "SavedCategory")
-//        databaseManager.deleteAllData(entity: "SavedArticle")
+        databaseManager = DatabaseManager()
+        fileManager = LocalStorageManager()
+        savedArticles = databaseManager?.fetchData()
+        savedCategories = databaseManager?.fetchCategories()
         bookmarksView?.collectionView.reloadData()
     }
 }
@@ -48,9 +48,11 @@ extension BookmarksController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return savedCategories.count
+            guard let categories = savedCategories else { return 0 }
+            return categories.count
         case 1:
-            return savedArticles.count
+            guard let articles = savedArticles else { return 0 }
+            return articles.count
         default:
             return 0
         }
@@ -60,12 +62,14 @@ extension BookmarksController: UICollectionViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as! CategoryCollectionViewCell
-            cell.configure(with: savedCategories[indexPath.item].category!)
+            guard let categories = savedCategories, let category = categories[indexPath.item].category else { return UICollectionViewCell() }
+            cell.configure(with: category)
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
-            cell.configureFromDB(with: savedArticles[indexPath.item])
-            let article = DisplayableArticle(title: savedArticles[indexPath.item].title!, author: savedArticles[indexPath.item].author!, category: savedArticles[indexPath.item].category!, url: savedArticles[indexPath.item].url!, description: savedArticles[indexPath.item].description, imagePath: savedArticles[indexPath.item].imagePath!.path)
+            guard let articles = savedArticles else { return UICollectionViewCell() }
+            let article = DisplayableArticle(title: articles[indexPath.item].title!, author: articles[indexPath.item].author!, category: articles[indexPath.item].category!, url: articles[indexPath.item].url!, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].imagePath!.path)
+            cell.configure(with: article)
             cell.makeMenu(for: article, viewController: self, indexPath: indexPath)
             cell.delegate = self
             return cell
@@ -76,29 +80,29 @@ extension BookmarksController: UICollectionViewDataSource {
 }
 
 extension BookmarksController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-//            guard let article = savedArticles[indexPath.item] as? SavedArticle else { return }
-//            fileManager.delete(file: savedArticles[indexPath.item].imagePath!.path)
-//            databaseManager.delete(item: savedArticles[indexPath.item])
-//            collectionView.deleteItems(at: [indexPath])
-//            savedArticles.remove(at: indexPath.item)
-//            self.bookmarksView?.collectionView.reloadData()
-        } else {
-            databaseManager.deleteCategory(item: savedCategories[indexPath.item])
-            collectionView.deleteItems(at: [indexPath])
-            savedCategories.remove(at: indexPath.item)
-            self.bookmarksView?.collectionView.reloadData()
-        }
-    }
+    
 }
 
 extension BookmarksController: DeletionDelegate {
     func deleteArticle(indexPath: IndexPath) {
-        fileManager.delete(file: savedArticles[indexPath.item].imagePath!.path)
-        databaseManager.delete(item: savedArticles[indexPath.item])
+        guard let articles = savedArticles else { return }
+        guard let categories = savedCategories else { return }
+        fileManager?.delete(file: articles[indexPath.item].imagePath!.path)
+        databaseManager?.delete(item: articles[indexPath.item])
+       
+        for category in categories {
+            if !articles.contains(where: { article in
+                return article.category == category.category
+            }) {
+                databaseManager?.deleteCategory(item: category)
+                bookmarksView?.collectionView.deleteItems(at: [indexPath])
+                savedCategories?.remove(at: indexPath.item)
+                self.bookmarksView?.collectionView.reloadData()
+            }
+        }
+        
         bookmarksView?.collectionView.deleteItems(at: [indexPath])
-        savedArticles.remove(at: indexPath.item)
+        savedArticles?.remove(at: indexPath.item)
         self.bookmarksView?.collectionView.reloadData()
     }
 }

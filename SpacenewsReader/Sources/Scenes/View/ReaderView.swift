@@ -27,6 +27,10 @@ class ReaderView: UIView {
         setupLayout()
     }
     
+    deinit {
+        print("Deinitialized WebView")
+    }
+    
     // MARK: - UI Elements
     
     lazy var webView: WKWebView = {
