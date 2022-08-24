@@ -29,7 +29,7 @@ class DatabaseManager {
         savedArticle.setValuesForKeys(["author": article.author,
                                        "title": article.title,
                                        "category": article.category,
-                                       "imagePath": URL(string: article.imagePath) as Any,
+                                       "imagePath": fileManager.getFileURL(title: article.title) as Any,
                                        "url": article.url,
                                        "desc": article.description])
 //        savedArticle.title = article.displayTitle

@@ -157,8 +157,8 @@ class NewsCollectionViewCell: UICollectionViewCell {
     }
     
     func configureFromDB(with model: DisplayableArticle) {
-        if fileManager.fileManager.fileExists(atPath: model.imagePath) {
-            self.articleImage.loadImageFromFilePath(path: URL(string: model.imagePath)!)
+        if FileManager.default.fileExists(atPath: model.imagePath) {
+            self.articleImage.loadImageFromFilePath(path: model.imagePath)
         }
         
         self.articleTitleLabel.text = model.title

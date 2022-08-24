@@ -14,6 +14,8 @@ class BookmarksController: UIViewController {
     var fileManager: LocalStorageManager?
     private var savedCategories: [SavedCategory]?
     private var savedArticles: [SavedArticle]?
+    private var tempArticles: [SavedArticle]?
+    var cellStatus: NSMutableDictionary = NSMutableDictionary()
     
     private var bookmarksView: BookmarksView? {
         guard isViewLoaded else { return nil }
@@ -36,6 +38,7 @@ class BookmarksController: UIViewController {
         fileManager = LocalStorageManager()
         savedArticles = databaseManager?.fetchData()
         savedCategories = databaseManager?.fetchCategories()
+        tempArticles = databaseManager?.fetchData()
         bookmarksView?.collectionView.reloadData()
     }
 }
@@ -80,7 +83,36 @@ extension BookmarksController: UICollectionViewDataSource {
 }
 
 extension BookmarksController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+            cell.isSelected = true
+            self.cellStatus[indexPath.row] = true
+            
+//            if let category = cell.label.text, category != "Latest" {
+//                savedArticles = savedArticles?.filter({ article in
+//                    article.category == category
+//                })
+//                collectionView.reloadSections(IndexSet(integer: 1))
+            } else {
+//                self.articles = tempArticles
+//                self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
+            }
+//        } else {
+//            let readerController = ReaderController()
+//            readerController.article = DisplayableArticle(title: <#T##String#>, author: <#T##String#>, category: <#T##String#>, url: <#T##String#>, description: <#T##String#>, imagePath: <#T##String#>)
+//            navigationController?.pushViewController(readerController, animated: true)
+//        }
+    }
     
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+            cell.isSelected = false
+            self.cellStatus[indexPath.row] = false
+//            savedArticles = databaseManager?.fetchData()
+        }
+    }
 }
 
 extension BookmarksController: DeletionDelegate {
