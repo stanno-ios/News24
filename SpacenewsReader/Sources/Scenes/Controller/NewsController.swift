@@ -63,8 +63,13 @@ extension NewsController: UICollectionViewDataSource {
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
-            
-            let article = DisplayableArticle(title: articles[indexPath.item].title, author: articles[indexPath.item].author, category: articles[indexPath.item].category[0], url: articles[indexPath.item].url, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].image)
+            var cat = ""
+            if !articles[indexPath.item].category.isEmpty {
+                cat = articles[indexPath.item].category[0]
+            } else {
+                cat = "Uncategorized"
+            }
+            let article = DisplayableArticle(title: articles[indexPath.item].title, author: articles[indexPath.item].author, category: cat, url: articles[indexPath.item].url, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].image)
             cell.configure(with: article)
             cell.makeMenu(for: article, viewController: self)
             return cell

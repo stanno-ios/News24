@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreData
+import SDWebImage
 
 protocol DeletionDelegate: AnyObject {
     func deleteArticle(indexPath: IndexPath)
@@ -143,18 +144,21 @@ class NewsCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with model: DisplayableArticle) {
-        self.articleImage.loadImageFromUrl(urlString: model.imagePath)
         self.articleTitleLabel.text = model.title
         self.authorLabel.text = model.author
         self.categoryLabel.text = model.category
+        
+        if model.imagePath != "None" {
+            articleImage.sd_setImage(with: URL(string: model.imagePath)!)
+        } else {
+            articleImage.tintColor = .systemGray5
+            articleImage.image = UIImage(systemName: "newspaper")
+        }
     }
     
-    func configureFromDB(with model: SavedArticle) {
-//        guard let article = model as? SavedArticle else { return }
-//        guard let url = model.displayImage else { return }
-        
-        if fileManager.fileManager.fileExists(atPath: model.imagePath!.path) {
-            self.articleImage.loadImageFromFilePath(path: URL(string: model.imagePath!.path)!)
+    func configureFromDB(with model: DisplayableArticle) {
+        if fileManager.fileManager.fileExists(atPath: model.imagePath) {
+            self.articleImage.loadImageFromFilePath(path: URL(string: model.imagePath)!)
         }
         
         self.articleTitleLabel.text = model.title

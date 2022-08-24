@@ -69,7 +69,7 @@ extension BookmarksController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
             guard let articles = savedArticles else { return UICollectionViewCell() }
             let article = DisplayableArticle(title: articles[indexPath.item].title!, author: articles[indexPath.item].author!, category: articles[indexPath.item].category!, url: articles[indexPath.item].url!, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].imagePath!.path)
-            cell.configure(with: article)
+            cell.configureFromDB(with: article)
             cell.makeMenu(for: article, viewController: self, indexPath: indexPath)
             cell.delegate = self
             return cell

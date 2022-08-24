@@ -7,5 +7,6 @@ target 'SpacenewsReader' do
 
   # Pods for SpacenewsReader
 	pod 'Alamofire'
+	pod 'SDWebImage'
 
 end

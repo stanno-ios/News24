@@ -28,6 +28,7 @@ class NetworkManager {
             .responseDecodable(of: News.self) { (data) in
                 guard let response = data.value else { return }
                 let articles = response.news
+                print(articles)
                 self.delegate?.updateCells(with: articles)
         }
     }
