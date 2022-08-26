@@ -149,7 +149,10 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.categoryLabel.text = model.category
         
         if model.imagePath != "None" {
-            articleImage.sd_setImage(with: URL(string: model.imagePath)!)
+            UIView.transition(with: self.articleImage, duration: 0.3, options: .curveEaseIn, animations: {
+                self.articleImage.sd_setImage(with: URL(string: model.imagePath)!)
+            })
+            
         } else {
             articleImage.tintColor = .systemGray5
             articleImage.image = UIImage(systemName: "newspaper")
