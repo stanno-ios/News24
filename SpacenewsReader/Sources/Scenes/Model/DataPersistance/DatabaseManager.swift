@@ -32,11 +32,6 @@ class DatabaseManager {
                                        "imagePath": fileManager.getFileURL(title: article.title) as Any,
                                        "url": article.url,
                                        "desc": article.description])
-//        savedArticle.title = article.displayTitle
-//        savedArticle.author = article.displayAuthor
-//        savedArticle.imagePath = URL(string: article.displayImage)
-//        savedArticle.url = article.displayURL
-//        savedArticle.category = article.displayCategory
         
         do {
             try context.save()

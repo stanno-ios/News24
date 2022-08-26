@@ -13,6 +13,7 @@ class ReaderController: UIViewController {
     // MARK: - Article
     
     var article: Article?
+    var savedArticle: SavedArticle?
     
     // MARK: - Reader view
     
@@ -32,11 +33,23 @@ class ReaderController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        guard let urlString = article?.url, let url = URL(string: urlString) else {
-            return
+        
+        if let article = article, article != nil {
+            guard let url = URL(string: article.url) else {
+                return
+            }
+            
+            readerView?.webView.load(URLRequest(url: url))
+            readerView?.webView.allowsBackForwardNavigationGestures = true
+        } else {
+            guard let savedArticle = savedArticle else {
+                return
+            }
+            
+            guard let urlString = savedArticle.url, let url = URL(string: urlString) else { return }
+            readerView?.webView.load(URLRequest(url: url))
+            readerView?.webView.allowsBackForwardNavigationGestures = true
         }
-        readerView?.webView.load(URLRequest(url: url))
-        readerView?.webView.allowsBackForwardNavigationGestures = true
     }
     
     // MARK: - Private functions

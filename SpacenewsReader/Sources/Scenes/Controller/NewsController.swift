@@ -15,6 +15,7 @@ class NewsController: UIViewController {
     var articles: [Article] = []
     var tempArticles: [Article] = []
     var cellStatus: NSMutableDictionary = NSMutableDictionary()
+    var selectedItem: IndexPath = IndexPath(item: 0, section: 0)
     
     private var newsView: NewsView? {
         guard isViewLoaded else { return nil }
@@ -33,7 +34,11 @@ class NewsController: UIViewController {
         newsView?.collectionView.dataSource = self
         manager.delegate = self
         manager.fetchArticles()
-        newsView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: [])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        newsView?.collectionView.selectItem(at: selectedItem, animated: false, scrollPosition: [])
     }
 }
 
@@ -87,7 +92,7 @@ extension NewsController: UICollectionViewDelegate {
             guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
             cell.isSelected = true
             self.cellStatus[indexPath.row] = true
-            
+            selectedItem = indexPath
             if let category = cell.label.text, category != "Latest" {
                 manager.applyFilter(category: cell.label.text!.lowercased())
             } else {

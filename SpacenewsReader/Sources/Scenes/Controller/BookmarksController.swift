@@ -10,6 +10,7 @@ import CoreData
 
 class BookmarksController: UIViewController {
     
+    var cellTapsCount: Int = 0
     var databaseManager: DatabaseManager?
     var fileManager: LocalStorageManager?
     private var savedCategories: [SavedCategory]?
@@ -86,32 +87,49 @@ extension BookmarksController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+            cellTapsCount += 1
             cell.isSelected = true
             self.cellStatus[indexPath.row] = true
             
-//            if let category = cell.label.text, category != "Latest" {
-//                savedArticles = savedArticles?.filter({ article in
-//                    article.category == category
-//                })
-//                collectionView.reloadSections(IndexSet(integer: 1))
-            } else {
-//                self.articles = tempArticles
-//                self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
+            if let category = cell.label.text, category != "Latest" {
+                savedArticles = savedArticles?.filter({ article in
+                    article.category == category
+                })
+                collectionView.reloadSections(IndexSet(integer: 1))
             }
-//        } else {
-//            let readerController = ReaderController()
-//            readerController.article = DisplayableArticle(title: <#T##String#>, author: <#T##String#>, category: <#T##String#>, url: <#T##String#>, description: <#T##String#>, imagePath: <#T##String#>)
-//            navigationController?.pushViewController(readerController, animated: true)
-//        }
+        } else {
+            let readerController = ReaderController()
+            print("Pressed")
+            readerController.savedArticle = savedArticles![indexPath.item]
+            navigationController?.pushViewController(readerController, animated: true)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+            cellTapsCount = 0
             cell.isSelected = false
             self.cellStatus[indexPath.row] = false
-//            savedArticles = databaseManager?.fetchData()
+            self.savedArticles = tempArticles
+            collectionView.reloadSections(IndexSet(integer: 1))
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 0 {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return false }
+            
+            if cell.isSelected {
+                collectionView.deselectItem(at: indexPath, animated: true)
+                cellTapsCount = 0
+                self.savedArticles = tempArticles
+                collectionView.reloadSections(IndexSet(integer: 1))
+            } else {
+                return true
+            }
+        }
+        return true
     }
 }
 
@@ -126,15 +144,18 @@ extension BookmarksController: DeletionDelegate {
             if !articles.contains(where: { article in
                 return article.category == category.category
             }) {
+                self.bookmarksView?.collectionView.deselectItem(at: indexPath, animated: false)
                 databaseManager?.deleteCategory(item: category)
                 bookmarksView?.collectionView.deleteItems(at: [indexPath])
                 savedCategories?.remove(at: indexPath.item)
+//                savedCategories = databaseManager?.fetchCategories()
                 self.bookmarksView?.collectionView.reloadData()
             }
         }
-        
         bookmarksView?.collectionView.deleteItems(at: [indexPath])
         savedArticles?.remove(at: indexPath.item)
+        savedCategories = databaseManager?.fetchCategories()
+        savedArticles = databaseManager?.fetchData()
         self.bookmarksView?.collectionView.reloadData()
     }
 }
