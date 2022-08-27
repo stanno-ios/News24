@@ -177,6 +177,11 @@ class NewsCollectionViewCell: UICollectionViewCell {
         self.categoryLabel.text = nil
     }
     
+    func getImage() -> UIImage {
+        guard let image = articleImage.image else { fatalError("No image has been found") }
+        return image
+    }
+    
     func makeMenu(for item: DisplayableArticle, viewController: UIViewController, indexPath: IndexPath? = nil) {
         let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { _ in
             let itemToShare: [Any] = [ArticleActivityItemSource(title: item.title, desc: item.description, url: item.url)]

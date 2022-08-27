@@ -100,8 +100,10 @@ extension NewsController: UICollectionViewDelegate {
                 self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
             }
         } else {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? NewsCollectionViewCell else { return }
             let readerController = ReaderController()
             readerController.article = articles[indexPath.row]
+            readerController.image = cell.getImage()
             navigationController?.pushViewController(readerController, animated: true)
         }
     }

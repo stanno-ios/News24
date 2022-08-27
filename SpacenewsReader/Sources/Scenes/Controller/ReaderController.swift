@@ -10,9 +10,13 @@ import WebKit
 
 class ReaderController: UIViewController {
     
+    let databaseManager = DatabaseManager()
+    let fileManager = LocalStorageManager()
+    
     // MARK: - Article
     
     var article: Article?
+    var image: UIImage?
     var savedArticle: SavedArticle?
     
     // MARK: - Reader view
@@ -57,6 +61,7 @@ class ReaderController: UIViewController {
     private func setupNavigationBar() {
         readerView?.backButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
         readerView?.shareButton.addTarget(self, action: #selector(shareButtonTapped(sender:)), for: .touchUpInside)
+        readerView?.bookmarkButton.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
         let leftItem = UIBarButtonItem(customView: readerView!.backButton)
         let trailingItems = [UIBarButtonItem(customView: readerView!.shareButton), UIBarButtonItem(customView: readerView!.bookmarkButton)]
         navigationItem.leftBarButtonItem = leftItem
@@ -80,6 +85,25 @@ class ReaderController: UIViewController {
         activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
         activityVC.popoverPresentationController?.sourceView = sender
         self.present(activityVC, animated: true)
+    }
+    
+    @objc private func bookmarkButtonTapped() {
+        guard let image = self.image else { return }
+        guard let article = article else { return }
+        let articleToSave = DisplayableArticle(title: article.title, author: article.author, category: article.category[0], url: article.url, description: article.description, imagePath: article.image)
+        self.fileManager.saveImage(image: image, title: article.title)
+        self.databaseManager.saveArticle(article: articleToSave)
+        
+        if !self.databaseManager.checkIfCategoryExists(category: articleToSave.category) {
+            self.databaseManager.saveCategory(category: articleToSave.category)
+        }
+        
+        let alertController = UIAlertController(title: "Bookmarked!", message: "This article will appear on the bookmarked tab.", preferredStyle: .alert)
+        self.present(alertController, animated: true)
+        let when = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            alertController.dismiss(animated: true)
+        }
     }
 }
 

@@ -29,6 +29,7 @@ class BookmarksController: UIViewController {
         super.viewDidLoad()
         view = BookmarksView()
         navigationItem.title = "Bookmarked"
+        navigationController?.navigationBar.prefersLargeTitles = true
         bookmarksView?.collectionView.delegate = self
         bookmarksView?.collectionView.dataSource = self
     }
