@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// struct DisplayableArticle is created as a more generic approach to handle article display from different sources
+
 struct DisplayableArticle {
     let title: String
     let author: String

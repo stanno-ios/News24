@@ -38,7 +38,7 @@ class ReaderController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         
-        if let article = article, article != nil {
+        if let article = article {
             guard let url = URL(string: article.url) else {
                 return
             }
@@ -94,11 +94,7 @@ class ReaderController: UIViewController {
         self.fileManager.saveImage(image: image, title: article.title)
         self.databaseManager.saveArticle(article: articleToSave)
         
-        if !self.databaseManager.checkIfCategoryExists(category: articleToSave.category) {
-            self.databaseManager.saveCategory(category: articleToSave.category)
-        }
-        
-        let alertController = UIAlertController(title: "Bookmarked!", message: "This article will appear on the bookmarked tab.", preferredStyle: .alert)
+        let alertController = UIAlertController(title: Strings.alertTitle, message: Strings.alertMessage, preferredStyle: .alert)
         self.present(alertController, animated: true)
         let when = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: when) {

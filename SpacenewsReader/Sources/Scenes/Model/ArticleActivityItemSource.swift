@@ -8,6 +8,8 @@
 import UIKit
 import LinkPresentation
 
+/// class ArticleActivityItemSource represents a share item
+
 class ArticleActivityItemSource: NSObject, UIActivityItemSource {
     
     var title: String
@@ -32,7 +34,7 @@ class ArticleActivityItemSource: NSObject, UIActivityItemSource {
     func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
         let metadata = LPLinkMetadata()
         metadata.title = title
-        metadata.iconProvider = NSItemProvider(object: UIImage(systemName: "newspaper")!)
+        metadata.iconProvider = NSItemProvider(object: UIImage(systemName: Strings.imageName)!)
         metadata.originalURL = URL(string: url)
         return metadata
     }

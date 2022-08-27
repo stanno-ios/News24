@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 
+/// class LocalStorageManager is responsible for local storage management
+/// primarily used for saving and deleting articles' images
+
 class LocalStorageManager {
+    
     let fileManager = FileManager.default
     
     var documentsUrl: URL {
@@ -19,11 +23,7 @@ class LocalStorageManager {
         let filename = documentsUrl.appendingPathComponent("\(title.trimmingCharacters(in: .whitespaces))")
         try? image.pngData()?.write(to: filename, options: .atomic)
     }
-    
-    private func getDocumentsDirectory() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    }
-    
+
     func getFileURL(title: String) -> URL {
         return documentsUrl.appendingPathComponent("\(title.trimmingCharacters(in: .whitespaces))")
     }
@@ -31,6 +31,5 @@ class LocalStorageManager {
     func delete(file: String) {
         guard let url = URL(string: file) else { return }
         try? fileManager.removeItem(at: url)
-        print("Removed")
     }
 }

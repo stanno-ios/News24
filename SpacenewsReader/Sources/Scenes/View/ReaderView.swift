@@ -27,10 +27,6 @@ class ReaderView: UIView {
         setupLayout()
     }
     
-    deinit {
-        print("Deinitialized WebView")
-    }
-    
     // MARK: - UI Elements
     
     lazy var webView: WKWebView = {
@@ -47,9 +43,9 @@ class ReaderView: UIView {
         return indicator
     }()
     
-    lazy var backButton: UIButton = createBarButton(with: "chevron.backward")
-    lazy var bookmarkButton: UIButton = createBarButton(with: "bookmark")
-    lazy var shareButton: UIButton = createBarButton(with: "square.and.arrow.up")
+    lazy var backButton: UIButton = createBarButton(with: Strings.backButtonImageName)
+    lazy var bookmarkButton: UIButton = createBarButton(with: Strings.bookmarkButtonImageName)
+    lazy var shareButton: UIButton = createBarButton(with: Strings.shareButtonImageName)
     
     private func createBarButton(with image: String) -> UIButton {
         let button = UIButton(type: .system)

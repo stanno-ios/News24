@@ -21,14 +21,14 @@ class CollectionViewLayout {
     }
     
     private static func createSectionOneLayout() -> NSCollectionLayoutSection? {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(35))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(Metric.itemWidth), heightDimension: .estimated(Metric.itemHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(100), heightDimension: .estimated(35))
+        let horizontalGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(Metric.itemWidth), heightDimension: .estimated(Metric.itemHeight))
         let horizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: horizontalGroupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: horizontalGroup)
-        section.interGroupSpacing = 10
+        section.interGroupSpacing = Metric.interGroupSpacing
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: Metric.contentInsets, leading: Metric.contentInsets, bottom: Metric.contentInsets, trailing: Metric.contentInsets)
         return section
     }
     
@@ -38,14 +38,14 @@ class CollectionViewLayout {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.2))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+        section.interGroupSpacing = Metric.interGroupSpacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: Metric.contentInsets, leading: Metric.contentInsets, bottom: Metric.contentInsets, trailing: Metric.contentInsets)
         return section
     }
     
     static func createSingleSectionLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { _, _ -> NSCollectionLayoutSection? in
-            return createSectionTwoLayout(sectionNumber: 0)
+            return createSectionTwoLayout(sectionNumber: 1)
         }
     }
 }

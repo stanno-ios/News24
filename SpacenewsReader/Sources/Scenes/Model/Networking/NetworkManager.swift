@@ -8,14 +8,7 @@
 import Foundation
 import Alamofire
 
-protocol CategoriesDelegate {
-    func updateCells(with model: [Article])
-    func reloadFiltered(with model: [Article])
-}
-
-protocol SearchDelegate {
-    func updateSearchResults(with data: [Article])
-}
+/// class NetworkManager is responsible for handling API calls
 
 class NetworkManager {
     
@@ -23,7 +16,9 @@ class NetworkManager {
     var searchDelegate: SearchDelegate?
     
     func fetchArticles() {
-        AF.request("https://api.currentsapi.services/v1/latest-news?apiKey=TeSfqsIS6rmfl2atTPhnfpunLLr25eV8ReABx-uZ3X8Aoj0w")
+        let url = "https://api.currentsapi.services/v1/latest-news"
+        let parameters: [String: String] = ["apiKey": "TeSfqsIS6rmfl2atTPhnfpunLLr25eV8ReABx-uZ3X8Aoj0w"]
+        AF.request(url, parameters: parameters)
             .validate()
             .responseDecodable(of: News.self) { (data) in
                 guard let response = data.value else { return }

@@ -10,13 +10,9 @@ import CoreData
 
 class BookmarksController: UIViewController {
     
-    var cellTapsCount: Int = 0
     var databaseManager: DatabaseManager?
     var fileManager: LocalStorageManager?
-    private var savedCategories: [SavedCategory]?
     private var savedArticles: [SavedArticle]?
-    private var tempArticles: [SavedArticle]?
-    var cellStatus: NSMutableDictionary = NSMutableDictionary()
     
     private var bookmarksView: BookmarksView? {
         guard isViewLoaded else { return nil }
@@ -28,7 +24,7 @@ class BookmarksController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view = BookmarksView()
-        navigationItem.title = "Bookmarked"
+        navigationItem.title = Strings.title
         navigationController?.navigationBar.prefersLargeTitles = true
         bookmarksView?.collectionView.delegate = self
         bookmarksView?.collectionView.dataSource = self
@@ -39,124 +35,54 @@ class BookmarksController: UIViewController {
         databaseManager = DatabaseManager()
         fileManager = LocalStorageManager()
         savedArticles = databaseManager?.fetchData()
-        savedCategories = databaseManager?.fetchCategories()
-        tempArticles = databaseManager?.fetchData()
         bookmarksView?.collectionView.reloadData()
+        
+        if bookmarksView?.collectionView.numberOfItems(inSection: 0) != 0 {
+            self.bookmarksView?.emptyLabel.isHidden = true
+        }
     }
 }
 
 extension BookmarksController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            guard let categories = savedCategories else { return 0 }
-            return categories.count
-        case 1:
-            guard let articles = savedArticles else { return 0 }
-            return articles.count
-        default:
-            return 0
-        }
+        guard let articles = savedArticles else { return 0 }
+        return articles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.section {
-        case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as! CategoryCollectionViewCell
-            guard let categories = savedCategories, let category = categories[indexPath.item].category else { return UICollectionViewCell() }
-            cell.configure(with: category)
-            return cell
-        case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
-            guard let articles = savedArticles else { return UICollectionViewCell() }
-            let article = DisplayableArticle(title: articles[indexPath.item].title!, author: articles[indexPath.item].author!, category: articles[indexPath.item].category!, url: articles[indexPath.item].url!, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].imagePath!.path)
-            cell.configureFromDB(with: article)
-            cell.makeMenu(for: article, viewController: self, indexPath: indexPath)
-            cell.delegate = self
-            return cell
-        default:
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
+        guard let articles = savedArticles else { return UICollectionViewCell() }
+        let article = DisplayableArticle(title: articles[indexPath.item].title!, author: articles[indexPath.item].author!, category: articles[indexPath.item].category!, url: articles[indexPath.item].url!, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].imagePath!.path)
+        cell.configureFromDB(with: article)
+        MenuHandler.makeMenu(for: cell, with: article, viewController: self, indexPath: indexPath)
+        return cell
     }
 }
 
 extension BookmarksController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
-            cellTapsCount += 1
-            cell.isSelected = true
-            self.cellStatus[indexPath.row] = true
-            
-            if let category = cell.label.text, category != "Latest" {
-                savedArticles = savedArticles?.filter({ article in
-                    article.category == category
-                })
-                collectionView.reloadSections(IndexSet(integer: 1))
-            }
-        } else {
-            let readerController = ReaderController()
-            print("Pressed")
-            readerController.savedArticle = savedArticles![indexPath.item]
-            navigationController?.pushViewController(readerController, animated: true)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
-            cellTapsCount = 0
-            cell.isSelected = false
-            self.cellStatus[indexPath.row] = false
-            self.savedArticles = tempArticles
-            collectionView.reloadSections(IndexSet(integer: 1))
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == 0 {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return false }
-            
-            if cell.isSelected {
-                collectionView.deselectItem(at: indexPath, animated: true)
-                cellTapsCount = 0
-                self.savedArticles = tempArticles
-                collectionView.reloadSections(IndexSet(integer: 1))
-            } else {
-                return true
-            }
-        }
-        return true
+        let readerController = ReaderController()
+        readerController.savedArticle = savedArticles![indexPath.item]
+        navigationController?.pushViewController(readerController, animated: true)
     }
 }
 
 extension BookmarksController: DeletionDelegate {
     func deleteArticle(indexPath: IndexPath) {
         guard let articles = savedArticles else { return }
-        guard let categories = savedCategories else { return }
         fileManager?.delete(file: articles[indexPath.item].imagePath!.path)
         databaseManager?.delete(item: articles[indexPath.item])
-       
-        for category in categories {
-            if !articles.contains(where: { article in
-                return article.category == category.category
-            }) {
-                self.bookmarksView?.collectionView.deselectItem(at: indexPath, animated: false)
-                databaseManager?.deleteCategory(item: category)
-                bookmarksView?.collectionView.deleteItems(at: [indexPath])
-                savedCategories?.remove(at: indexPath.item)
-//                savedCategories = databaseManager?.fetchCategories()
-                self.bookmarksView?.collectionView.reloadData()
-            }
-        }
         bookmarksView?.collectionView.deleteItems(at: [indexPath])
         savedArticles?.remove(at: indexPath.item)
-        savedCategories = databaseManager?.fetchCategories()
-        savedArticles = databaseManager?.fetchData()
+        
         self.bookmarksView?.collectionView.reloadData()
+        
+        if bookmarksView?.collectionView.numberOfItems(inSection: 0) == 0 {
+            bookmarksView?.emptyLabel.isHidden = false
+        }
     }
 }

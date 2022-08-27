@@ -10,17 +10,10 @@ import UIKit
 import CoreData
 import SDWebImage
 
-protocol DeletionDelegate: AnyObject {
-    func deleteArticle(indexPath: IndexPath)
-}
-
 class NewsCollectionViewCell: UICollectionViewCell {
     
     let fileManager = LocalStorageManager()
-    let databaseManager = DatabaseManager()
-    var delegate: DeletionDelegate?
-    
-    
+   
     // MARK: - Identifier
     
     static let identifier = "articleCell"
@@ -45,7 +38,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI Elements
     
-    private lazy var articleImage: UIImageView = {
+    lazy var articleImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -53,45 +46,37 @@ class NewsCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var articleTitleLabel: UILabel = {
+    lazy var articleTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.font = .systemFont(ofSize: Metric.primaryFontSize, weight: .bold)
         label.numberOfLines = 0
         label.sizeToFit()
         return label
     }()
     
-    private lazy var authorLabel: UILabel = {
+    lazy var authorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .gray
-        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.font = .systemFont(ofSize: Metric.secondaryFontSize, weight: .medium)
         label.numberOfLines = 0
         label.sizeToFit()
         return label
     }()
     
-    private lazy var categoryLabel: UILabel = {
+    lazy var categoryLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(red: 0.41, green: 0.74, blue: 0.99, alpha: 1.00)
-        label.font = .systemFont(ofSize: 13, weight: .bold)
-        return label
-    }()
-    
-    private lazy var publishedLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .gray
-        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.font = .systemFont(ofSize: Metric.secondaryFontSize, weight: .bold)
         return label
     }()
     
     lazy var moreButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.setImage(UIImage(systemName: Strings.moreButtonimageName), for: .normal)
         button.tintColor = .black
         button.showsMenuAsPrimaryAction = true
         return button
@@ -129,13 +114,13 @@ class NewsCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             articleImage.topAnchor.constraint(equalTo: topAnchor),
             articleImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            articleImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
+            articleImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.bottomPadding),
             articleImage.widthAnchor.constraint(equalTo: articleImage.heightAnchor),
             
             textContainer.topAnchor.constraint(equalTo: topAnchor),
-            textContainer.leadingAnchor.constraint(equalTo: articleImage.trailingAnchor, constant: 10),
+            textContainer.leadingAnchor.constraint(equalTo: articleImage.trailingAnchor, constant: Metric.leadingPadding),
             textContainer.trailingAnchor.constraint(equalTo: trailingAnchor),
-            textContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30)
+            textContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metric.bottomPadding)
         ])
     }
     
@@ -152,10 +137,9 @@ class NewsCollectionViewCell: UICollectionViewCell {
             UIView.transition(with: self.articleImage, duration: 0.3, options: .curveEaseIn, animations: {
                 self.articleImage.sd_setImage(with: URL(string: model.imagePath)!)
             })
-            
         } else {
             articleImage.tintColor = .systemGray5
-            articleImage.image = UIImage(systemName: "newspaper")
+            articleImage.image = UIImage(systemName: Strings.defaultArticleImageName)
         }
     }
     
@@ -180,39 +164,5 @@ class NewsCollectionViewCell: UICollectionViewCell {
     func getImage() -> UIImage {
         guard let image = articleImage.image else { fatalError("No image has been found") }
         return image
-    }
-    
-    func makeMenu(for item: DisplayableArticle, viewController: UIViewController, indexPath: IndexPath? = nil) {
-        let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { _ in
-            let itemToShare: [Any] = [ArticleActivityItemSource(title: item.title, desc: item.description, url: item.url)]
-            let activityVC = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
-            activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
-            activityVC.popoverPresentationController?.sourceView = self.moreButton
-            viewController.present(activityVC, animated: true)
-        }
-
-        let bookmarkAction = UIAction(title: "Bookmark", image: UIImage(systemName: "bookmark"), identifier: nil) { _ in
-            guard let image = self.articleImage.image else { return }
-            self.fileManager.saveImage(image: image, title: item.title)
-            self.databaseManager.saveArticle(article: item)
-            
-            if !self.databaseManager.checkIfCategoryExists(category: item.category) {
-                self.databaseManager.saveCategory(category: item.category)
-            }
-        }
-        
-        let deleteAction = UIAction(title: "Remove", image: UIImage(systemName: "delete.left"), identifier: nil, attributes: .destructive) { _ in
-            guard let indexPath = indexPath else {
-                return
-            }
-
-            self.delegate?.deleteArticle(indexPath: indexPath)
-        }
-        
-        if viewController is BookmarksController {
-            moreButton.menu = UIMenu(title: "Actions", children: [shareAction, deleteAction])
-        } else {
-            moreButton.menu = UIMenu(title: "Actions", children: [shareAction, bookmarkAction])
-        }
     }
 }

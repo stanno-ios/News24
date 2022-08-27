@@ -25,9 +25,9 @@ class TabBarController: UITabBarController {
     
     func setupViewControllers() {
         viewControllers = [
-            createNavigationController(for: NewsController(), image: UIImage(systemName: "newspaper")!),
-            createNavigationController(for: SearchController(), image: UIImage(systemName: "magnifyingglass")!),
-            createNavigationController(for: BookmarksController(), image: UIImage(systemName: "bookmark")!)
+            createNavigationController(for: NewsController(), image: UIImage(systemName: Strings.newsTabImage)!),
+            createNavigationController(for: SearchController(), image: UIImage(systemName: Strings.searchTabImage)!),
+            createNavigationController(for: BookmarksController(), image: UIImage(systemName: Strings.bookmarksTabImage)!)
         ]
     }
 }

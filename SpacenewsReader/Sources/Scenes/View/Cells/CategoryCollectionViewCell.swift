@@ -37,7 +37,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .gray
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: Metric.fontSize, weight: .medium)
         return label
     }()
     
@@ -72,13 +72,13 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     private func setupView() {
         backgroundColor = .systemGray5
         clipsToBounds = true
-        layer.cornerRadius = 15
+        layer.cornerRadius = Metric.cornerRadius
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.padding),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metric.padding),
             label.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
