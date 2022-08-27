@@ -68,7 +68,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     lazy var categoryLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(red: 0.41, green: 0.74, blue: 0.99, alpha: 1.00)
+        label.textColor = UIColor(named: "categoryColor")
         label.font = .systemFont(ofSize: Metric.secondaryFontSize, weight: .bold)
         return label
     }()
@@ -77,7 +77,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: Strings.moreButtonimageName), for: .normal)
-        button.tintColor = .black
+        button.tintColor = .label
         button.showsMenuAsPrimaryAction = true
         return button
     }()
@@ -162,7 +162,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     }
     
     func getImage() -> UIImage {
-        guard let image = articleImage.image else { fatalError("No image has been found") }
+        guard let image = articleImage.image else { return UIImage(systemName: "newspaper")! }
         return image
     }
 }

@@ -32,6 +32,8 @@ class ReaderView: UIView {
     lazy var webView: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.isOpaque = false
+        webView.backgroundColor = .systemBackground
         return webView
     }()
     
@@ -50,7 +52,7 @@ class ReaderView: UIView {
     private func createBarButton(with image: String) -> UIButton {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: image), for: .normal)
-        button.tintColor = .black
+        button.tintColor = .label
         return button
     }
     

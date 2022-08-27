@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabController = TabBarController()
         
         window?.rootViewController = tabController
+//        window?.overrideUserInterfaceStyle = .dark
         window?.makeKeyAndVisible()
         
         return true

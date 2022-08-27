@@ -68,11 +68,13 @@ extension NewsController: UICollectionViewDataSource {
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
             var category = ""
-            if !articles[indexPath.item].category.isEmpty {
-                category = articles[indexPath.item].category[0]
-            } else {
+            
+            if articles[indexPath.item].category.isEmpty {
                 category = Strings.defaultCategory
+            } else {
+                category = articles[indexPath.item].category[0].capitalized
             }
+            
             let article = DisplayableArticle(title: articles[indexPath.item].title, author: articles[indexPath.item].author, category: category, url: articles[indexPath.item].url, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].image)
             cell.configure(with: article)
             MenuHandler.makeMenu(for: cell, with: article, viewController: self, indexPath: indexPath)
@@ -109,9 +111,9 @@ extension NewsController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
-        cell.isSelected = false
-        self.cellStatus[indexPath.row] = false
+            guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCollectionViewCell else { return }
+            cell.isSelected = false
+            self.cellStatus[indexPath.row] = false
         }
     }
 }

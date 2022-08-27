@@ -44,7 +44,7 @@ extension SearchController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
-        let article = DisplayableArticle(title: articles[indexPath.item].title, author: articles[indexPath.item].author, category: articles[indexPath.item].category[0], url: articles[indexPath.item].url, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].image)
+        let article = DisplayableArticle(title: articles[indexPath.item].title, author: articles[indexPath.item].author, category: articles[indexPath.item].category.first!, url: articles[indexPath.item].url, description: articles[indexPath.item].description, imagePath: articles[indexPath.item].image)
         cell.configure(with: article)
         MenuHandler.makeMenu(for: cell, with: article, viewController: self, indexPath: indexPath)
         return cell
@@ -69,6 +69,10 @@ extension SearchController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         guard let text = searchBar.text else { return }
         manager.searchByKeywords(keywords: text)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 

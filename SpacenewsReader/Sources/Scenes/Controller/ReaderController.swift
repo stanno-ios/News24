@@ -90,7 +90,7 @@ class ReaderController: UIViewController {
     @objc private func bookmarkButtonTapped() {
         guard let image = self.image else { return }
         guard let article = article else { return }
-        let articleToSave = DisplayableArticle(title: article.title, author: article.author, category: article.category[0], url: article.url, description: article.description, imagePath: article.image)
+        let articleToSave = DisplayableArticle(title: article.title, author: article.author, category: article.category.first!, url: article.url, description: article.description, imagePath: article.image)
         self.fileManager.saveImage(image: image, title: article.title)
         self.databaseManager.saveArticle(article: articleToSave)
         

@@ -53,7 +53,7 @@ class CategoryCollectionViewCell: UICollectionViewCell {
                 super.isSelected = newValue
                 
                 if newValue == true {
-                    backgroundColor = .black
+                    backgroundColor = UIColor(named: "selectedButtonColor")
                     label.textColor = .white
                 } else {
                     backgroundColor = .systemGray5
