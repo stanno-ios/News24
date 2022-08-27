@@ -10,6 +10,9 @@ import WebKit
 
 class ReaderView: UIView {
     
+    var theBool: Bool?
+    var timer: Timer?
+    
     // MARK: - Initialization
     
     override init(frame: CGRect) {
@@ -28,6 +31,13 @@ class ReaderView: UIView {
     }
     
     // MARK: - UI Elements
+    
+    lazy var progressIndicator: UIProgressView = {
+        let progressIndicator = UIProgressView(progressViewStyle: .bar)
+        progressIndicator.translatesAutoresizingMaskIntoConstraints = false
+        progressIndicator.tintColor = .label
+        return progressIndicator
+    }()
     
     lazy var webView: WKWebView = {
         let webView = WKWebView()
@@ -61,17 +71,23 @@ class ReaderView: UIView {
     private func setupHierarchy() {
         addSubview(webView)
         webView.addSubview(activityIndicator)
+        webView.addSubview(progressIndicator)
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: topAnchor),
+            webView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             webView.leadingAnchor.constraint(equalTo: leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             activityIndicator.centerXAnchor.constraint(equalTo: webView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: webView.centerYAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: webView.centerYAnchor),
+            
+            progressIndicator.topAnchor.constraint(equalTo: webView.topAnchor),
+            progressIndicator.leadingAnchor.constraint(equalTo: webView.leadingAnchor),
+            progressIndicator.trailingAnchor.constraint(equalTo: webView.trailingAnchor),
+            progressIndicator.heightAnchor.constraint(equalToConstant: 3)
         ])
     }
 }

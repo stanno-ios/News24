@@ -26,6 +26,11 @@ class ReaderController: UIViewController {
         return view as? ReaderView
     }
     
+    deinit {
+        self.readerView?.webView.removeObserver(self, forKeyPath: "estimatedProgress")
+        self.readerView?.webView.removeObserver(self, forKeyPath: "loading")
+    }
+    
     // MARK: - Lifecycle
     
     override func loadView() {
@@ -39,20 +44,14 @@ class ReaderController: UIViewController {
         setupNavigationBar()
         
         if let article = article {
-            guard let url = URL(string: article.url) else {
-                return
-            }
-            
-            readerView?.webView.load(URLRequest(url: url))
-            readerView?.webView.allowsBackForwardNavigationGestures = true
+            guard let url = URL(string: article.url) else { return }
+            setObservers()
+            load(url: url)
         } else {
-            guard let savedArticle = savedArticle else {
-                return
-            }
-            
+            guard let savedArticle = savedArticle else { return }
             guard let urlString = savedArticle.url, let url = URL(string: urlString) else { return }
-            readerView?.webView.load(URLRequest(url: url))
-            readerView?.webView.allowsBackForwardNavigationGestures = true
+            setObservers()
+            load(url: url)
         }
     }
     
@@ -101,16 +100,30 @@ class ReaderController: UIViewController {
             alertController.dismiss(animated: true)
         }
     }
+    
+    private func setObservers() {
+        self.readerView?.webView.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
+        self.readerView?.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+    }
+    
+    private func load(url: URL) {
+        readerView?.webView.load(URLRequest(url: url))
+        readerView?.webView.allowsBackForwardNavigationGestures = true
+    }
 }
 
 // MARK: - WKNavigationDelegate
 
 extension ReaderController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        readerView?.activityIndicator.startAnimating()
-    }
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        readerView?.activityIndicator.stopAnimating()
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            self.readerView?.progressIndicator.setProgress(Float((self.readerView?.webView.estimatedProgress)!), animated: true)
+        } else if keyPath == "loading" {
+            if self.readerView!.webView.isLoading {
+                self.readerView?.progressIndicator.setProgress(0.01, animated: true)
+            } else {
+                self.readerView?.progressIndicator.setProgress(0.0, animated: false)
+            }
+        }
     }
 }
