@@ -32,6 +32,8 @@ class NewsController: UIViewController {
         newsView?.collectionView.delegate = self
         newsView?.collectionView.dataSource = self
         manager.delegate = self
+        newsView?.activityIndicator.isHidden = false
+        newsView?.activityIndicator.startAnimating()
         manager.fetchArticles()
     }
     
@@ -126,6 +128,7 @@ extension NewsController: CategoriesDelegate {
             self.articles = model
             self.tempArticles = model
             self.newsView?.collectionView.reloadSections(IndexSet(integer: 1))
+            self.newsView?.activityIndicator.stopAnimating()
         }
     }
     
