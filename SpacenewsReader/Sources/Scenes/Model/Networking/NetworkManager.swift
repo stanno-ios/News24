@@ -12,6 +12,7 @@ import Alamofire
 
 class NetworkManager {
     
+    static let shared = NetworkManager()
     var delegate: CategoriesDelegate?
     var searchDelegate: SearchDelegate?
     

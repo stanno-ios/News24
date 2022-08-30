@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class NewsController: UIViewController {
     
@@ -32,10 +33,48 @@ class NewsController: UIViewController {
         newsView?.collectionView.delegate = self
         newsView?.collectionView.dataSource = self
         manager.delegate = self
-        newsView?.activityIndicator.isHidden = false
-        newsView?.activityIndicator.startAnimating()
+    
+        ConnectionHandler.shared.monitorConnection(views: [
+            newsView!.noConnectionLabel,
+            newsView!.connectingActivityIndicator,
+            newsView!.collectionView,
+            newsView!.activityIndicator
+        ])
+        
         manager.fetchArticles()
     }
+    
+//    private func monitorConnection() {
+//        let monitor = NWPathMonitor()
+//        let queue = DispatchQueue(label: "InternetConnectionMonitor")
+//
+//        monitor.pathUpdateHandler = { handler in
+//            if handler.status == .satisfied {
+//                DispatchQueue.main.async {
+//                    self.toggleViewsVisibility(connected: true)
+//                    self.manager.fetchArticles()
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    self.toggleViewsVisibility(connected: false)
+//                }
+//            }
+//        }
+//
+//        monitor.start(queue: queue)
+//    }
+    
+//    private func toggleViewsVisibility(connected: Bool) {
+//        self.newsView?.noConnectionLabel.isHidden = connected
+//        self.newsView?.connectingActivityIndicator.isHidden = connected
+//        self.newsView?.collectionView.isHidden = !connected
+//        connected ? self.newsView?.connectingActivityIndicator.stopAnimating() : self.newsView?.connectingActivityIndicator.startAnimating();
+//    }
+//    
+//    @objc private func reconnect() {
+//        viewDidLoad()
+//        viewWillAppear(true)
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
