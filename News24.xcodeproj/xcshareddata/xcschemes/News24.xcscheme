@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3E113F9259E12F84928DF5EEE504215A"
-               BuildableName = "Pods_SpacenewsReader.framework"
-               BlueprintName = "Pods-SpacenewsReader"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               BlueprintIdentifier = "3A63D1DB28A1F70D003FC485"
+               BuildableName = "News24.app"
+               BlueprintName = "News24"
+               ReferencedContainer = "container:News24.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -39,7 +39,26 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      queueDebuggingEnabled = "No"
+      memoryGraphOnResourceException = "Yes">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3A63D1DB28A1F70D003FC485"
+            BuildableName = "News24.app"
+            BlueprintName = "News24"
+            ReferencedContainer = "container:News24.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "OS_ACTIVITY_MODE"
+            value = "disable"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -47,6 +66,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3A63D1DB28A1F70D003FC485"
+            BuildableName = "News24.app"
+            BlueprintName = "News24"
+            ReferencedContainer = "container:News24.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
