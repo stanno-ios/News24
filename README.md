@@ -19,11 +19,11 @@
 ## Light mode
 |  Main Tab  |   Filtered   | Context menu |
 |:---------------:|:---------------:|:-------------:|
-![LaunchLight](https://i.postimg.cc/sDGkYdgp/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-43-40.png)|![FilteredLight](https://i.postimg.cc/bwhqdN9G/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-43-45.png)|![ContextMenuLight](https://i.postimg.cc/tCPXXVWQ/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-43-59.png)
+![LaunchLight](https://i.postimg.cc/sDGkYdgp/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-43-40.png)|![FilteredLight](https://i.postimg.cc/bwhqdN9G/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-43-45.png)|![ContextMenuLight](https://i.postimg.cc/7Znwz8KK/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-06.png)
 |  Share sheet  |   Reader   | Bookmarked alert |
-![ShareLight](https://i.postimg.cc/7Znwz8KK/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-06.png)|![ReaderLight](https://i.postimg.cc/brDB9kpz/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-11.png)|![BookmakedAlertLight](https://i.postimg.cc/tR8qQz1N/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-47.png)
+![ShareLight](https://i.postimg.cc/brDB9kpz/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-11.png)|![ReaderLight](https://i.postimg.cc/tR8qQz1N/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-47.png)|![BookmakedAlertLight](https://i.postimg.cc/bvY8HCMp/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-55.png)
 |  Search  |   Bookmarked   | Bookmarked reader |
-![SearchLight](https://i.postimg.cc/bvY8HCMp/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-44-55.png)|![BookmarkedLight](https://i.postimg.cc/j5j9CB1n/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-45-10.png)|![BookmakedReaderLight](https://i.postimg.cc/sxk06xg5/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-45-27.png)
+![SearchLight](https://i.postimg.cc/tCPXXVWQ/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-43-59.png)|![BookmarkedLight](https://i.postimg.cc/j5j9CB1n/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-45-10.png)|![BookmakedReaderLight](https://i.postimg.cc/sxk06xg5/Simulator-Screen-Shot-i-Phone-13-2022-08-31-at-15-45-27.png)
 
 ## Technology stack
 > - UIKit, Autolayout
