@@ -43,6 +43,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 5
         return imageView
     }()
     
@@ -125,7 +126,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupView() {
-        self.layer.addBorder(edge: .bottom, color: .systemGray5, thickness: 1, widthAdjustment: 0, inset: 0)
+        self.layer.addBorder(edge: .bottom, color: UIColor(named: "bottomBorderColor")!, thickness: 1, widthAdjustment: 0, inset: 0)
     }
     
     func configure(with model: DisplayableArticle) {
