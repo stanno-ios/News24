@@ -28,6 +28,11 @@ class SearchController: UIViewController {
         searchView?.collectionView.delegate = self
         searchView?.collectionView.dataSource = self
         manager.searchDelegate = self
+        
+        ConnectionHandler.shared.monitorConnection(views: [
+            searchView!.collectionView,
+            searchView!.noConnectionView
+        ])
     }
 }
 
@@ -66,12 +71,9 @@ extension SearchController: UICollectionViewDelegate {
 // MARK: - UISearchBarDelegate
 
 extension SearchController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text else { return }
         manager.searchByKeywords(keywords: text)
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
 }

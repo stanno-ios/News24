@@ -27,8 +27,8 @@ class ReaderController: UIViewController {
     }
     
     deinit {
-        self.readerView?.webView.removeObserver(self, forKeyPath: "estimatedProgress")
-        self.readerView?.webView.removeObserver(self, forKeyPath: "loading")
+        self.readerView?.webView.removeObserver(self, forKeyPath: Strings.estimatedProgress)
+        self.readerView?.webView.removeObserver(self, forKeyPath: Strings.loading)
     }
     
     // MARK: - Lifecycle
@@ -46,12 +46,19 @@ class ReaderController: UIViewController {
         if let article = article {
             guard let url = URL(string: article.url) else { return }
             setObservers()
-            load(url: url)
+            ConnectionHandler.shared.monitorConnection(views: [
+                self.readerView!.noConnectionView,
+                self.readerView!.webView
+            ], webViewUrl: url)
+            
         } else {
             guard let savedArticle = savedArticle else { return }
             guard let urlString = savedArticle.url, let url = URL(string: urlString) else { return }
             setObservers()
-            load(url: url)
+            ConnectionHandler.shared.monitorConnection(views: [
+                self.readerView!.noConnectionView,
+                self.readerView!.webView
+            ], webViewUrl: url)
         }
     }
     
@@ -102,8 +109,8 @@ class ReaderController: UIViewController {
     }
     
     private func setObservers() {
-        self.readerView?.webView.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
-        self.readerView?.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        self.readerView?.webView.addObserver(self, forKeyPath: Strings.loading, options: .new, context: nil)
+        self.readerView?.webView.addObserver(self, forKeyPath: Strings.estimatedProgress, options: .new, context: nil)
     }
     
     private func load(url: URL) {

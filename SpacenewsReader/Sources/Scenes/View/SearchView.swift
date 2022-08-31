@@ -30,6 +30,12 @@ class SearchView: UIView {
     
     lazy var searchBar = UISearchBar(frame: .zero)
     
+    lazy var noConnectionView: NoConnectionView = {
+        let view = NoConnectionView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout.createSingleSectionLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,6 +47,7 @@ class SearchView: UIView {
     
     private func setupHierarchy() {
         addSubview(collectionView)
+        addSubview(noConnectionView)
     }
     
     private func setupLayout() {
@@ -48,7 +55,10 @@ class SearchView: UIView {
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            noConnectionView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+            noConnectionView.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor)
         ])
     }
 }

@@ -28,9 +28,16 @@ class ReaderView: UIView {
     private func commonInit() {
         setupHierarchy()
         setupLayout()
+        self.backgroundColor = .systemBackground
     }
     
     // MARK: - UI Elements
+    
+    lazy var noConnectionView: NoConnectionView = {
+        let view = NoConnectionView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     lazy var progressIndicator: UIProgressView = {
         let progressIndicator = UIProgressView(progressViewStyle: .bar)
@@ -45,14 +52,6 @@ class ReaderView: UIView {
         webView.isOpaque = false
         webView.backgroundColor = .systemBackground
         return webView
-    }()
-    
-    lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.hidesWhenStopped = true
-        indicator.style = .medium
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
     }()
     
     lazy var backButton: UIButton = createBarButton(with: Strings.backButtonImageName)
@@ -70,8 +69,8 @@ class ReaderView: UIView {
     
     private func setupHierarchy() {
         addSubview(webView)
-        webView.addSubview(activityIndicator)
         webView.addSubview(progressIndicator)
+        addSubview(noConnectionView)
     }
     
     private func setupLayout() {
@@ -81,13 +80,13 @@ class ReaderView: UIView {
             webView.trailingAnchor.constraint(equalTo: trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            activityIndicator.centerXAnchor.constraint(equalTo: webView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: webView.centerYAnchor),
-            
             progressIndicator.topAnchor.constraint(equalTo: webView.topAnchor),
             progressIndicator.leadingAnchor.constraint(equalTo: webView.leadingAnchor),
             progressIndicator.trailingAnchor.constraint(equalTo: webView.trailingAnchor),
-            progressIndicator.heightAnchor.constraint(equalToConstant: 3)
+            progressIndicator.heightAnchor.constraint(equalToConstant: Metric.progressIndicatorHeight),
+            
+            noConnectionView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noConnectionView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

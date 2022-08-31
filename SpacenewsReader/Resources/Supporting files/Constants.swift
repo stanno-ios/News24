@@ -82,6 +82,10 @@ extension ReaderView {
         static let bookmarkButtonImageName: String = "bookmark"
         static let shareButtonImageName: String = "square.and.arrow.up"
     }
+    
+    enum Metric {
+        static let progressIndicatorHeight: CGFloat = 3
+    }
 }
 
 extension BookmarksView {
@@ -98,6 +102,8 @@ extension ReaderController {
     enum Strings {
         static let alertTitle: String = "Bookmarked!"
         static let alertMessage: String = "This article will appear on the bookmarked tab."
+        static let estimatedProgress: String = "estimatedProgress"
+        static let loading: String = "loading"
     }
 }
 
@@ -118,5 +124,21 @@ extension TabBarController {
 extension BookmarksController {
     enum Strings {
         static let title: String = "Bookmarked"
+    }
+}
+
+extension ConnectionHandler {
+    enum Strings {
+        static let queueLabel: String = "InternetConnectionMonitor"
+    }
+}
+
+extension NoConnectionView {
+    enum Strings {
+        static let noConnectionLabelText: String = "Waiting for network"
+    }
+    
+    enum Metric {
+        static let padding: CGFloat = 5
     }
 }

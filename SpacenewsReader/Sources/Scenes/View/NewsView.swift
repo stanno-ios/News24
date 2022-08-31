@@ -28,42 +28,16 @@ class NewsView: UIView {
     
     // MARK: - UI Elements
     
-    lazy var noConnectionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Waiting for network"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .label
-        label.textAlignment = .center
-//        label.isHidden = true
-        return label
-    }()
-    
-    lazy var connectingActivityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView()
-        indicator.style = .medium
-        indicator.hidesWhenStopped = true
-        indicator.tag = 0
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        return indicator
-    }()
-    
-    lazy var reconnectButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Retry", for: .normal)
-        button.backgroundColor = UIColor(named: "selectedButtonColor")
-        button.tintColor = .label
-        button.isHidden = true
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 15
-        return button
+    lazy var noConnectionView: NoConnectionView = {
+        let view = NoConnectionView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.hidesWhenStopped = true
         indicator.style = .medium
-        indicator.isHidden = true
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.tag = 1
         return indicator
@@ -74,7 +48,6 @@ class NewsView: UIView {
         collectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
         collectionView.register(NewsCollectionViewCell.self, forCellWithReuseIdentifier: NewsCollectionViewCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        collectionView.isHidden = true
         return collectionView
     }()
     
@@ -83,8 +56,7 @@ class NewsView: UIView {
     private func setupHierarchy() {
         addSubview(collectionView)
         addSubview(activityIndicator)
-        addSubview(noConnectionLabel)
-        addSubview(connectingActivityIndicator)
+        addSubview(noConnectionView)
     }
     
     private func setupLayout() {
@@ -97,11 +69,8 @@ class NewsView: UIView {
             activityIndicator.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor),
             
-            noConnectionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            noConnectionLabel.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor),
-            
-            connectingActivityIndicator.leadingAnchor.constraint(equalTo: noConnectionLabel.trailingAnchor, constant: 5),
-            connectingActivityIndicator.centerYAnchor.constraint(equalTo: noConnectionLabel.centerYAnchor)
+            noConnectionView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noConnectionView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
