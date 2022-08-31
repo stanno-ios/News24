@@ -69,7 +69,12 @@ class ReaderController: UIViewController {
         readerView?.shareButton.addTarget(self, action: #selector(shareButtonTapped(sender:)), for: .touchUpInside)
         readerView?.bookmarkButton.addTarget(self, action: #selector(bookmarkButtonTapped), for: .touchUpInside)
         let leftItem = UIBarButtonItem(customView: readerView!.backButton)
-        let trailingItems = [UIBarButtonItem(customView: readerView!.shareButton), UIBarButtonItem(customView: readerView!.bookmarkButton)]
+        var trailingItems: [UIBarButtonItem] = []
+        if savedArticle != nil {
+            trailingItems = [UIBarButtonItem(customView: readerView!.shareButton)]
+        } else {
+            trailingItems = [UIBarButtonItem(customView: readerView!.shareButton), UIBarButtonItem(customView: readerView!.bookmarkButton)]
+        }
         navigationItem.leftBarButtonItem = leftItem
         navigationItem.rightBarButtonItems = trailingItems
     }
@@ -81,12 +86,14 @@ class ReaderController: UIViewController {
     }
     
     @objc func shareButtonTapped(sender: UIButton) {
-        guard let article = article else {
-            return
+        var itemToShare: [Any] = []
+        
+        if let article = article {
+            itemToShare = [ArticleActivityItemSource(title: article.title, desc: article.description, url: article.url, image: image!)]
+        } else if let savedArticle = savedArticle {
+            itemToShare = [ArticleActivityItemSource(title: savedArticle.title!, desc: savedArticle.description, url: savedArticle.url!, image: image!)]
         }
-        let itemToShare: [Any] = [
-            ArticleActivityItemSource(title: article.title, desc: article.description, url: article.url)
-        ]
+        
         let activityVC = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
         activityVC.popoverPresentationController?.sourceView = sender
@@ -111,11 +118,6 @@ class ReaderController: UIViewController {
     private func setObservers() {
         self.readerView?.webView.addObserver(self, forKeyPath: Strings.loading, options: .new, context: nil)
         self.readerView?.webView.addObserver(self, forKeyPath: Strings.estimatedProgress, options: .new, context: nil)
-    }
-    
-    private func load(url: URL) {
-        readerView?.webView.load(URLRequest(url: url))
-        readerView?.webView.allowsBackForwardNavigationGestures = true
     }
 }
 

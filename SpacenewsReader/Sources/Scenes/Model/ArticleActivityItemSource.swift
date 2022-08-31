@@ -15,11 +15,13 @@ class ArticleActivityItemSource: NSObject, UIActivityItemSource {
     var title: String
     var desc: String
     var url: String
+    var image: UIImage
     
-    init(title: String, desc: String, url: String) {
+    init(title: String, desc: String, url: String, image: UIImage) {
         self.title = title
         self.desc = desc
         self.url = url
+        self.image = image
         super.init()
     }
     
@@ -28,13 +30,13 @@ class ArticleActivityItemSource: NSObject, UIActivityItemSource {
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
-        return title
+        return URL(string: url)!
     }
     
     func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
         let metadata = LPLinkMetadata()
         metadata.title = title
-        metadata.iconProvider = NSItemProvider(object: UIImage(systemName: Strings.imageName)!)
+        metadata.iconProvider = NSItemProvider(object: image)
         metadata.originalURL = URL(string: url)
         return metadata
     }

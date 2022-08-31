@@ -66,7 +66,9 @@ extension BookmarksController: UICollectionViewDataSource {
 extension BookmarksController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let readerController = ReaderController()
+        let cell = collectionView.cellForItem(at: indexPath) as! NewsCollectionViewCell
         readerController.savedArticle = savedArticles![indexPath.item]
+        readerController.image = cell.getImage()
         navigationController?.pushViewController(readerController, animated: true)
     }
 }

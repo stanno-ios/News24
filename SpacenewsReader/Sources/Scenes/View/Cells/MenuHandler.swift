@@ -22,7 +22,7 @@ struct MenuHandler {
         }
         
         let shareAction = UIAction(title: Strings.shareTitle, image: UIImage(systemName: Strings.shareImageName), identifier: nil) { _ in
-            let itemToShare: [Any] = [ArticleActivityItemSource(title: item.title, desc: item.description, url: item.url)]
+            let itemToShare: [Any] = [ArticleActivityItemSource(title: item.title, desc: item.description, url: item.url, image: cell.getImage())]
             let activityVC = UIActivityViewController(activityItems: itemToShare, applicationActivities: nil)
             activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
             activityVC.popoverPresentationController?.sourceView = cell.moreButton
