@@ -53,6 +53,21 @@ class DatabaseManager {
         return articles
     }
     
+    func checkIfArticleExists(article: DisplayableArticle) -> Bool {
+        let context = getContext()
+        let request = NSFetchRequest<NSManagedObject>(entityName: Strings.entityName)
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", article.title)
+        var results: [NSManagedObject] = []
+        
+        do {
+            results = try context.fetch(request)
+        } catch {
+            print("Error executing fetch request: \(error)")
+        }
+        
+        return results.count > 0
+    }
+    
     func delete(item: SavedArticle) {
         let context = getContext()
         context.delete(item)

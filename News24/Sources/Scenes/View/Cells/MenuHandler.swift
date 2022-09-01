@@ -31,8 +31,22 @@ struct MenuHandler {
 
         let bookmarkAction = UIAction(title: Strings.bookmarkTitle, image: UIImage(systemName: Strings.bookmarkImageName), identifier: nil) { _ in
             guard let image = cell.articleImage.image else { return }
-            self.fileManager.saveImage(image: image, title: item.title)
-            self.databaseManager.saveArticle(article: item)
+            if !self.databaseManager.checkIfArticleExists(article: item) {
+                self.fileManager.saveImage(image: image, title: item.title)
+                self.databaseManager.saveArticle(article: item)
+            } else {
+                let alert = UIAlertController(title: "Oops!", message: "This article alredy exists in your bookmarks. Try another one!", preferredStyle: .alert)
+                viewController.present(alert, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    viewController.dismiss(animated: true)
+                }
+            }
+            let alertController = UIAlertController(title: ReaderController.Strings.alertTitle, message: ReaderController.Strings.alertMessage, preferredStyle: .alert)
+            viewController.present(alertController, animated: true)
+            let when = DispatchTime.now() + 1
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                viewController.dismiss(animated: true)
+            }
         }
         
         let deleteAction = UIAction(title: Strings.deleteTitle, image: UIImage(systemName: Strings.deleteImageName), identifier: nil, attributes: .destructive) { _ in

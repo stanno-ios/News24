@@ -104,9 +104,16 @@ class ReaderController: UIViewController {
         guard let image = self.image else { return }
         guard let article = article else { return }
         let articleToSave = DisplayableArticle(title: article.title, author: article.author, category: article.category.first!, url: article.url, description: article.description, imagePath: article.image)
-        self.fileManager.saveImage(image: image, title: article.title)
-        self.databaseManager.saveArticle(article: articleToSave)
-        
+        if !self.databaseManager.checkIfArticleExists(article: articleToSave) {
+            self.fileManager.saveImage(image: image, title: articleToSave.title)
+            self.databaseManager.saveArticle(article: articleToSave)
+        } else {
+            let alert = UIAlertController(title: "Oops!", message: "This article alredy exists in your bookmarks. Try another one!", preferredStyle: .alert)
+            self.present(alert, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.dismiss(animated: true)
+            }
+        }
         let alertController = UIAlertController(title: Strings.alertTitle, message: Strings.alertMessage, preferredStyle: .alert)
         self.present(alertController, animated: true)
         let when = DispatchTime.now() + 1

@@ -132,7 +132,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     func configure(with model: DisplayableArticle) {
         self.articleTitleLabel.text = model.title
         self.authorLabel.text = model.author
-        self.categoryLabel.text = model.category
+        self.categoryLabel.text = model.category.capitalized
         
         if model.imagePath != "None" {
             UIView.transition(with: self.articleImage, duration: 0.3, options: .curveEaseIn, animations: {
